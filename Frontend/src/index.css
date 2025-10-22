@@ -1,0 +1,55 @@
+/* --- Font Import (This is perfect, no change) --- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap');
+
+/* --- Tailwind Directives (Correct, no change) --- */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* --- Base Layer Styling --- */
+@layer base {
+  /* This is the core of our new theme. 
+    It sets the default background and text colors for the entire app,
+    and automatically handles light and dark modes.
+  */
+  body {
+    @apply bg-white dark:bg-slate-950 text-slate-800 dark:text-slate-100;
+    @apply font-sans antialiased;
+    overflow-x: hidden;
+  }
+
+  /* Themed text selection color */
+  ::selection {
+    @apply bg-indigo-500/30 text-indigo-900 dark:text-white;
+  }
+
+  /* Themed scrollbar for Webkit browsers (Chrome, Safari) */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-slate-100 dark:bg-slate-800;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-indigo-300 dark:bg-indigo-700 rounded-md;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-indigo-400 dark:bg-indigo-600;
+  }
+}
+
+/* --- Utility Layer Styling --- */
+@layer utilities {
+  /* Custom utility for hiding scrollbars */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}
