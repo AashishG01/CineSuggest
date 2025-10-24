@@ -40,6 +40,7 @@ import jwt from "jsonwebtoken";
 import { User } from "../models/user.model.js";
 
 export const verifyJWT = asyncHandler(async(req, _, next) => {
+    //console.log(`--- verifyJWT Middleware Running for: ${req.originalUrl} ---`);
     try {
         const token = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ", "");
         

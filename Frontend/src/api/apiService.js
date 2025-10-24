@@ -105,6 +105,10 @@ export const apiService = {
     deleteCustomList: async (listId) => {
         const response = await backendApi.delete(`/lists/${listId}`);
         return response.data;
+    },
+    getRecommendations: async () => {
+        const response = await backendApi.get('/users/recommendations');
+        // response.data should be the ApiResponse containing the array of IDs
+        return response.data;
     }
-
 };

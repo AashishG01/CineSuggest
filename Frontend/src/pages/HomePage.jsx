@@ -1,8 +1,12 @@
 import HeroBanner from '../components/HeroBanner';
 import MovieRow from '../components/MovieRow';
+import RecommendationsRow from '../components/RecommendationsRow';
+import { useSelector } from 'react-redux';
 // CHANGE: The old 'requests.js' import is no longer needed.
 
 const HomePage = () => {
+  const { isAuthenticated } = useSelector((state) => state.auth);
+
   return (
     // DESIGN CHANGE: Switched from hardcoded black to our new theme-aware background.
     <main className="bg-white dark:bg-slate-950">
@@ -11,6 +15,7 @@ const HomePage = () => {
       {/* This container pulls the rows up over the HeroBanner's bottom gradient */}
       <div className="relative z-10 -mt-20 md:-mt-32 px-6 md:px-12 pb-20 space-y-12">
         {/* CHANGE: Replaced the 'fetchUrl' prop with the new, simpler 'category' prop. */}
+        {isAuthenticated && <RecommendationsRow />}
         <MovieRow title="Trending Now" category="popular" />
         <MovieRow title="Top Rated Movies" category="best" />
         {/* --- Add Bollywood/Indian Rows Here --- */}

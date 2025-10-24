@@ -3,6 +3,9 @@ import { ApiError } from "../utils/ApiError.js";
 import { User } from "../models/user.model.js";
 import { Watchlist } from "../models/watchlist.model.js"; 
 import { ApiResponse } from "../utils/ApiResponse.js";
+import axios from 'axios';
+import dotenv from 'dotenv';
+dotenv.config();
 
 /**
  * @description Handles new user registration
@@ -219,6 +222,57 @@ const getWatchlist = asyncHandler(async (req, res) => {
         .json(new ApiResponse(200, watchlist.movies, "Watchlist fetched successfully"));
 });
 
+// Recommendation 
+// @desc    Get movie recommendations for the user
+// @route   GET /api/v1/users/recommendations
+// @access  Private
+const getRecommendations = asyncHandler(async (req, res) => {
+    const userId = req.user._id;
+    // console.log("Fetching recommendations for User ID:", userId);
+
+    // --- CORRECTED FETCH LOGIC ---
+    // 2. Find the Watchlist document associated with the user ID
+    const userWatchlist = await Watchlist.findOne({ user: userId });
+    // --- ---
+
+    // Log the fetched watchlist object
+    //console.log("Fetched Watchlist object:", userWatchlist);
+
+    // Handle cases where watchlist document or movies array is missing/empty
+    if (!userWatchlist || !userWatchlist.movies || userWatchlist.movies.length === 0) {
+        //console.log("Watchlist document not found or is empty.");
+        return res.status(200).json(new ApiResponse(200, [], "Watchlist empty, cannot generate recommendations."));
+    }
+
+    // 3. Extract the array of movie IDs from the 'movies' field
+    const watchlistIds = userWatchlist.movies.map(movie => movie.movieId); // Get just the IDs
+    // --- ---
+
+    //console.log("Extracted Watchlist IDs:", watchlistIds);
+
+    // Call the Python Recommendation Service API
+    try {
+        //console.log(`Sending IDs to Python Service: ${watchlistIds}`);
+        const recommendationResponse = await axios.post(
+            `${process.env.RECOMMENDATION_API_URL}/recommend`,
+            {
+                imdb_ids: watchlistIds,
+                top_n: 10
+            }
+        );
+
+        const recommendedIds = recommendationResponse.data.recommended_imdb_ids || [];
+        //console.log(`Received IDs from Python Service: ${recommendedIds}`);
+
+        return res.status(200).json(
+            new ApiResponse(200, recommendedIds, "Recommendations fetched successfully")
+        );
+
+    } catch (error) {
+        console.error("Error calling recommendation service:", error.response?.data || error.message);
+        throw new ApiError(500, "Could not fetch recommendations at this time.");
+    }
+});
 
 // Export all controller functions
 export {
@@ -227,5 +281,6 @@ export {
     logoutUser,
     addToWatchlist,
     removeFromWatchlist,
-    getWatchlist
+    getWatchlist,
+    getRecommendations,
 };

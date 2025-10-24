@@ -6,6 +6,7 @@ import {
     getWatchlist,
     addToWatchlist,
     removeFromWatchlist,
+    getRecommendations
 } from "../controllers/user.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 
@@ -26,6 +27,6 @@ router.route("/logout").post(verifyJWT, logoutUser);
 router.route("/watchlist").get(verifyJWT, getWatchlist);
 router.route("/watchlist/add").post(verifyJWT, addToWatchlist);
 router.route("/watchlist/remove").post(verifyJWT, removeFromWatchlist);
-
+router.route("/recommendations").get(verifyJWT, getRecommendations);
 
 export default router;
