@@ -1,3 +1,4 @@
+# backend files git ignore 
 # Logs
 logs
 *.log
@@ -118,3 +119,62 @@ dist
 .pnp.*
 
 # End of https://mrkandreev.name/snippets/gitignore-generator/#Node
+
+#  frontend files gitignre 
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.env
+
+
+# recommednation 
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+venv/
+.env/
+
+# Node / Frontend
+node_modules/
+dist/
+build/
+
+# Logs
+*.log
+
+# Large or data files
+*.pkl
+*.npy
+*.npz
+
+# OS and IDE junk
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Local datasets or model files
+Recommendation/movies_dataset.pkl
+Recommendation/movie_embeddings.npy
