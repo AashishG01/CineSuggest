@@ -1,3 +1,23 @@
-movie_embeddings.npy
-movies_dataset.pkl
-venv
+# Ignore virtual environment
+venv/
+
+# Ignore Python cache and compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore dataset and model files (large or sensitive)
+*.pkl
+*.npy
+*.npz
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore environment files
+.env
+
+# Ignore logs
+*.log
